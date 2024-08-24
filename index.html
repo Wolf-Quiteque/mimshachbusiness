@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Em Breve - Maria Pongue</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+        #container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        #words {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        .word {
+            position: absolute;
+            font-size: 16px;
+            opacity: 0;
+            transition: all 1s ease-in-out;
+            text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff;
+        }
+        #title {
+            font-size: 72px;
+            font-weight: bold;
+            text-align: center;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 2s ease-in-out;
+            margin-bottom: 20px;
+        }
+        #subtitle {
+            font-size: 36px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1s ease-in-out;
+        }
+        .glitch {
+            text-shadow: 2px 0 #00ffff, -2px 0 #ff00ff;
+            animation: glitch 1s infinite;
+        }
+        @keyframes glitch {
+            0% { text-shadow: 2px 0 #00ffff, -2px 0 #ff00ff; }
+            25% { text-shadow: -2px 0 #00ffff, 2px 0 #ff00ff; }
+            50% { text-shadow: 2px 0 #ff00ff, -2px 0 #00ffff; }
+            75% { text-shadow: -2px 0 #ff00ff, 2px 0 #00ffff; }
+            100% { text-shadow: 2px 0 #00ffff, -2px 0 #ff00ff; }
+        }
+        
+        
+        #suspense-text {
+            position: absolute;
+            bottom: 40px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 28px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 2px 0 #00ffff, -2px 0 #ff00ff;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .glitch {
+            animation: glitch 1s infinite;
+        }
+        @keyframes glitch {
+            0% { text-shadow: 2px 0 #00ffff, -2px 0 #ff00ff; }
+            25% { text-shadow: -2px 0 #00ffff, 2px 0 #ff00ff; }
+            50% { text-shadow: 2px 0 #ff00ff, -2px 0 #00ffff; }
+            75% { text-shadow: -2px 0 #ff00ff, 2px 0 #00ffff; }
+            100% { text-shadow: 2px 0 #00ffff, -2px 0 #ff00ff; }
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="words"></div>
+        <div id="title">MARIA PONGUE</div>
+        <div id="subtitle"></div>
+    </div>
+    <div id="suspense-text" ></div>
+
+<script>
+    const words = [
+        "Inspirar", "Criar", "Sonhar", "Inovar", "Capacitar", "Acreditar",
+        "Alcançar", "Transformar", "Imaginar", "Explorar", "Descobrir", "Crescer",
+        "Evoluir", "Abraçar", "Perseverar", "Suceder", "Aspirar", "Prosperar",
+        "Irradiar", "Iluminar", "Transcender", "Florescer", "Acender", "Voar",
+        "Investir", "Lucrar", "Economizar", "Multiplicar", "Empreender", "Conquistar",
+        "Riqueza", "Abundância", "Fortuna", "Estabilidade", "Patrimônio", "Rendimento",
+        "Valorizar", "Capitalizar", "Progredir", "Expandir", "Frutificar", "Enriquecer",
+        "Liderar", "Inovar", "Superar", "Realizar", "Otimizar", "Potencializar",
+        "Desenvolver", "Aprimorar", "Rentabilizar", "Acelerar", "Construir", "Planejar"
+    ];
+
+    const wordsContainer = document.getElementById('words');
+    const title = document.getElementById('title');
+    const subtitle = document.getElementById('subtitle');
+
+    function createWordElements() {
+        const gridSize = 8; // Adjust this value to change the grid density
+        const cellWidth = 100 / gridSize;
+        const cellHeight = 100 / gridSize;
+
+        const shuffledWords = words.sort(() => Math.random() - 0.5);
+        const usedCells = new Set();
+
+        shuffledWords.forEach((word) => {
+            let cell;
+            do {
+                const row = Math.floor(Math.random() * gridSize);
+                const col = Math.floor(Math.random() * gridSize);
+                cell = `${row},${col}`;
+            } while (usedCells.has(cell));
+
+            usedCells.add(cell);
+
+            const [row, col] = cell.split(',').map(Number);
+
+            const div = document.createElement('div');
+            div.textContent = word;
+            div.className = 'word';
+            div.style.left = `${col * cellWidth + Math.random() * (cellWidth / 4)}%`;
+            div.style.top = `${row * cellHeight + Math.random() * (cellHeight / 4)}%`;
+            wordsContainer.appendChild(div);
+        });
+    }
+
+        function animateWords() {
+            const wordElements = document.querySelectorAll('.word');
+            wordElements.forEach((el, index) => {
+                setTimeout(() => {
+                    el.style.opacity = 1;
+                    el.style.transform = 'scale(1.2)';
+                }, index * 50);
+            });
+
+            setTimeout(() => {
+                wordElements.forEach((el, index) => {
+                    setTimeout(() => {
+                        el.style.opacity = 0;
+                        el.style.transform = 'scale(0.8) rotate(360deg)';
+                    }, index * 25);
+                });
+            }, 6000);
+
+            setTimeout(() => {
+                title.style.opacity = 1;
+                title.style.transform = 'scale(1)';
+                title.classList.add('glitch');
+            }, 8000);
+
+            setTimeout(() => {
+                typeEffect(subtitle, "brevemente", 200);
+            }, 9000);
+
+            setTimeout(() => {
+                addSuspense();
+            }, 11000);
+        }
+
+        function typeEffect(element, text, speed = 100) {
+            let i = 0;
+            const timer = setInterval(() => {
+                if (i < text.length) {
+                    element.textContent += text.charAt(i);
+                    i++;
+                } else {
+                    clearInterval(timer);
+                }
+            }, speed);
+        }
+
+function addSuspense() {
+  const suspenseText = "Prepare-se para uma nova era de sucesso financeiro...";
+  const suspenseElement = document.getElementById('suspense-text');
+  suspenseElement.style.opacity = '1';
+
+  let index = 0;
+  const timer = setInterval(() => {
+    if (index < suspenseText.length) {
+      suspenseElement.textContent += suspenseText[index];
+      index++;
+    } else {
+      clearInterval(timer);
+    }
+  }, 100);
+}
+        createWordElements();
+        setTimeout(animateWords, 1000);
+    </script>
+</body>
+</html>
+
